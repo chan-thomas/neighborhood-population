@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Neighborhood Info Dashboard</title>
+</head>
+<body>
+  <h2>Neighborhood Info Dashboard</h2>
+
+  <div>
+    <label>State (e.g. NY): <input type="text" id="state-input"></label>
+    <button onclick="fetchCities()">List Cities</button>
+    <button onclick="fetchTopCities()">Top Cities</button>
+  </div>
+
+  <div>
+    <label>City: <input type="text" id="city-input"></label>
+    <button onclick="fetchCityPopulation()">City Population</button>
+  </div>
+
+  <pre id="output"></pre>
+
+  <script>
+    async function fetchCities() {
+      const state = document.getElementById('state-input').value;
+      const res = await fetch(`/api/states/${state}/cities`);
+      document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+    }
+
+    async function fetchTopCities() {
+      const state = document.getElementById('state-input').value;
+      const res = await fetch(`/api/state/${state}/top`);
+      document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+    }
+
+    async function fetchCityPopulation() {
+      const city = document.getElementById('city-input').value;
+      const res = await fetch(`/api/city/${city}/pop`);
+      document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+    }
+  </script>
+</body>
+</html>

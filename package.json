@@ -1,0 +1,17 @@
+{
+  "name": "neighborhood-dashboard-starter",
+  "version": "1.0.0",
+  "description": "MongoDB Mongoose dashboard using zips collection",
+  "license": "ISC",
+  "author": "Thomas Chan",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "local": "node --env-file .env --watch server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.16.0"
+  }
+}
