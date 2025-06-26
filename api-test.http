@@ -1,0 +1,25 @@
+### Get all cities in NY
+GET http://localhost:3000/api/states/NY/cities
+
+
+### Get the top populated cities from NY
+GET http://localhost:3000/api/state/NY/top
+
+
+### Get City total population
+GET http://localhost:3000/api/city/PROVO/pop
+
+
+### add a new zip code
+POST http://localhost:3000/api/zip HTTP/1.1
+Content-Type: application/json
+
+{ 
+    "_id": 84048, 
+    "city": "LEHI", 
+    "state": "UT", 
+    "pop": 89000 
+}
+
+### delete a zip code
+DELETE http://localhost:3000/api/zip/84048
