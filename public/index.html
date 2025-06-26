@@ -1,43 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Neighborhood Info Dashboard</title>
-</head>
-<body>
-  <h2>Neighborhood Info Dashboard</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Neighborhood Info Dashboard</title>
+  </head>
+  <body>
+    <h2>Neighborhood Info Dashboard</h2>
 
-  <div>
-    <label>State (e.g. NY): <input type="text" id="state-input"></label>
-    <button onclick="fetchCities()">List Cities</button>
-    <button onclick="fetchTopCities()">Top Cities</button>
-  </div>
+    <div>
+      <label>State (e.g. NY): <input type="text" id="state-input" /></label>
+      <button onclick="fetchCities()">List Cities</button>
+      <button onclick="fetchTopCities()">Top Cities</button>
+    </div>
 
-  <div>
-    <label>City: <input type="text" id="city-input"></label>
-    <button onclick="fetchCityPopulation()">City Population</button>
-  </div>
+    <div>
+      <label>City: <input type="text" id="city-input" /></label>
+      <button onclick="fetchCityPopulation()">City Population</button>
+    </div>
+    <hr />
+    <h2>Add New Zip Code</h2>
+    <div>
+      <label
+        >New Zip Code (84048): <input type="number" name="newZip" id="newZip"
+      /></label>
+      <label
+        >City (LEHI): <input type="text" name="newCity" id="newCity"
+      /></label>
+      <label
+        >State (UT): <input type="text" name="newState" id="newState"
+      /></label>
+      <label
+        >Population (89000): <input type="number" name="newPop" id="newPop"
+      /></label>
+      <button onclick="addNewZip()">Add New Zip Code</button>
+    </div>
+    <hr />
+    <h2>Delete Zip Code</h2>
+    <div>
+      <label
+        >Remove Zip Code (84048):
+        <input type="number" name="delZip" id="delZip"
+      /></label>
+      <button onclick="removeZip()">Remove Zip Code</button>
+    </div>
+    <pre id="output"></pre>
 
-  <pre id="output"></pre>
+    <script>
+      async function fetchCities() {
+        const state = document.getElementById("state-input").value;
+        const res = await fetch(`/api/states/${state}/cities`);
+        document.getElementById("output").textContent = JSON.stringify(
+          await res.json(),
+          null,
+          2
+        );
+      }
 
-  <script>
-    async function fetchCities() {
-      const state = document.getElementById('state-input').value;
-      const res = await fetch(`/api/states/${state}/cities`);
-      document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
-    }
+      async function fetchTopCities() {
+        const state = document.getElementById("state-input").value;
+        const res = await fetch(`/api/state/${state}/top`);
+        document.getElementById("output").textContent = JSON.stringify(
+          await res.json(),
+          null,
+          2
+        );
+      }
 
-    async function fetchTopCities() {
-      const state = document.getElementById('state-input').value;
-      const res = await fetch(`/api/state/${state}/top`);
-      document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
-    }
-
-    async function fetchCityPopulation() {
-      const city = document.getElementById('city-input').value;
-      const res = await fetch(`/api/city/${city}/pop`);
-      document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
-    }
-  </script>
-</body>
+      async function fetchCityPopulation() {
+        const city = document.getElementById("city-input").value;
+        const res = await fetch(`/api/city/${city}/pop`);
+        document.getElementById("output").textContent = JSON.stringify(
+          await res.json(),
+          null,
+          2
+        );
+      }
+      async function addNewZip() {
+        const _id = document.getElementById("newZip").value;
+        const city = document.getElementById("newCity").value;
+        const state = document.getElementById("newState").value;
+        const pop = document.getElementById("newPop").value;
+        const res = await fetch("/api/zip", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ _id, city, state, pop }),
+        });
+        document.getElementById("output").textContent = JSON.stringify(
+          await res.json(),
+          null,
+          2
+        );
+      }
+      async function removeZip() {
+        const _id = document.getElementById("delZip").value;
+        const res = await fetch(`/api/zip/${_id}`, {
+          method: "DELETE",
+        });
+        document.getElementById("output").textContent = JSON.stringify(
+          await res.json(),
+          null,
+          2
+        );
+      }
+    </script>
+  </body>
 </html>
